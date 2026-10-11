@@ -184,8 +184,8 @@
           <h1>Privacy Policy</h1>
           <p class="subtitle">隐私政策 · English and 简体中文</p>
           <div class="meta">
-            <span>Effective date / 生效日期: <time datetime="2026-10-02">October 2, 2026 / 2026 年 10 月 2 日</time></span>
-            <span>Applies to version / 适用版本: 0.4.0</span>
+            <span>Effective date / 生效日期: <time datetime="2026-10-12">October 12, 2026 / 2026 年 10 月 12 日</time></span>
+            <span>Applies to version / 适用版本: 0.5.0</span>
           </div>
           <nav class="language-nav" aria-label="Language / 语言">
             <a href="#english" lang="en">English</a>
@@ -194,132 +194,103 @@
         </header>
 
         <main>
-          <article id="english" lang="en">
-            <h2>English</h2>
-            <p class="summary"><strong>Summary:</strong> Aperture Vault is a local-only password manager. It has no developer-operated server, analytics, advertising, telemetry, cloud sync, or third-party network SDK, and it does not send your vault data to the developer or independent third-party infrastructure.</p>
-
-            <h3>1. Scope</h3>
-            <p>This policy describes how the Aperture Vault browser extension processes information. Aperture Vault’s single purpose is to store sign-in credentials locally in encrypted form in the current browser profile and, after a user action or per-origin authorization, manage, review, and fill credentials on exactly matched sites.</p>
-
-            <h3>2. Data processed</h3>
-            <p>Aperture Vault processes only data needed for its user-facing password-management features, including:</p>
-            <ul>
-              <li>site name, exact origin (scheme, hostname, and port), and an optional path prefix;</li>
-              <li>username, password, and notes;</li>
-              <li>locally generated passwords with their creation times and exact origins, and replaced credential passwords with their timestamps;</li>
-              <li>last-used timestamp and use count stored in the encrypted vault;</li>
-              <li>language, theme, auto-lock policy, and origins where the user separately enabled candidate detection or post-submit save prompts;</li>
-              <li>the master password while the user enters it on a secure extension page; and</li>
-              <li>the current page title, origin and path, login-form structure, labels, and field metadata needed locally to identify sign-in fields for an explicit read or fill, or for an enabled trusted-submit prompt.</li>
-            </ul>
-            <p>When the user selects “Read and save current login,” the extension examines the current page and sign-in form locally, reads the selected username and password, and asks for confirmation in a secure extension window. It does not retain a copy of the page or the full form.</p>
-            <p>The user can explicitly generate a password in the manager or beside a recognized HTTPS registration/password-change field. Generation uses local browser cryptographic randomness and writes encrypted recovery before displaying, copying or explicitly filling the new and confirmation fields. It never submits the website form or determines whether the site accepted a password. A webpage generation context (origin/path, title, username, tab/frame/document and field-binding identifiers, and expiry) is held in trusted extension session storage for at most ten minutes without the generated password, and cleared on lock, replacement or related window/tab closure. A save review opened after generation uses the ten-minute manual-review lifetime below.</p>
-            <p>The user may separately enable post-submit save or update prompts for one exact HTTPS origin. This feature operates only while that origin’s optional permission remains granted and the vault is unlocked. After a trusted click or Enter action leads to a native form submission, the extension reads the username and password once only if the form action remains on the same HTTPS origin, the form has one login-password field and a high-confidence account field, and the flow does not appear to be registration, password change, one-time-code, or payment entry. Confirmation is still required before any save or update.</p>
-            <p>Pending review data is held temporarily in the browser’s memory-backed <code>storage.session</code>. It can include the proposed username and password, page title, source origin and path (without query parameters or fragments), operational identifiers and timestamps needed to connect and expire the review, the suggested save/update mode, and one or more existing candidate identifiers. An explicit manual capture is retained for at most 10 minutes; an enabled trusted-submit prompt is retained for at most 2 minutes. Pending data is cleared on confirmation, cancellation, expiry, lock, vault replacement, or closure of the related tab or review window. The extension does not continuously monitor input, serialize the full form, or silently save or overwrite a credential. The master password is processed only while entered to derive or unlock the encryption key; it is never stored, transmitted, injected into, or shared with the current website.</p>
-
-            <h3>3. Local storage and security</h3>
-            <ul>
-              <li>The credential vault—including saved site records, credentials, notes, and their usage metadata—is encrypted with AES-256-GCM before it is written to browser local storage.</li>
-              <li>Generated-password recovery and replaced-password history are encrypted inside the same vault, never written to unencrypted preferences, indexed for search, or sent to other websites.</li>
-              <li>The master password is never stored. A key is derived using PBKDF2-HMAC-SHA-256, a random salt, and 600,000 iterations.</li>
-              <li>The raw unlocked key is kept only in browser memory-backed session storage and is removed on lock, timeout, or browser-session end.</li>
-              <li>The in-memory search index exists only on an unlocked extension page and is cleared on lock.</li>
-              <li>Non-sensitive preferences and operational settings—including language, theme, auto-lock policy, and per-origin feature enablement—are stored separately in browser local storage and are not part of the encrypted credential vault or its encrypted backup.</li>
-              <li>Exported JSON backups remain encrypted and protected by the master password.</li>
-              <li>If the user chooses Copy, the selected plaintext password is written to the operating-system clipboard. The extension does not automatically clear the clipboard; later retention is controlled by the operating system and user environment.</li>
-            </ul>
-
-            <h3>4. Network transfer and third parties</h3>
-            <p>Aperture Vault contains no developer-operated remote server, analytics, advertising, telemetry, cloud sync, or third-party network SDK. It does not send credentials, site information, search queries, usage records, or vault contents to the developer, advertising or analytics services, cloud services, or independent third-party infrastructure. It does not sell user data or use it for advertising, creditworthiness, lending, or an unrelated purpose, and it does not expose vault data to human review.</p>
-            <p>Data leaves the extension only through a user-directed local action: filling the selected username and password into sign-in fields on the current exactly matched site, copying a selected password to the operating-system clipboard, or downloading an encrypted local backup. If the user submits a filled form, that chosen site’s own privacy policy governs its processing of the submitted data.</p>
-
-            <h3>5. Browser permissions</h3>
-            <ul>
-              <li><code>storage</code>: stores the encrypted vault, non-sensitive settings, and memory-backed session state.</li>
-              <li><code>alarms</code>: triggers the selected local idle lock and clears expired pending reviews even when no Vault page is open; it makes no network request.</li>
-              <li><code>activeTab</code>: accesses the current tab after the user clicks the extension or invokes its shortcut.</li>
-              <li><code>scripting</code>: injects the isolated sign-in candidate, form-reading, and fill interface on demand.</li>
-              <li>Optional website access: requested only after the user enables candidate detection or separately enables post-submit save prompts for an exact HTTPS origin. Even if the browser grants host-level access, the extension validates the exact scheme, hostname, and effective port.</li>
-            </ul>
-            <p>The extension does not download, execute, or reference remote code. All executable code is included in the Manifest V3 store package.</p>
-
-            <h3>6. Retention, control, and deletion</h3>
-            <p>Data remains in the user’s browser profile until the user deletes a credential, imports another backup, clears extension data, or uninstalls the extension. The user can view, edit, or delete individual credentials; export an encrypted backup; turn off per-site features; revoke website access that is no longer required; lock the session; or uninstall the extension to clear extension data.</p>
-            <p>Generated recovery retains at most the newest 20 records for 30 days. Expired records cannot be accessed and are removed from the encrypted payload on the next unlocked vault read or write. Each credential retains its ten most recent replaced passwords; the user can clear this history, and deleting the credential also deletes its history. Restoring a password changes only the local record, not the website password. Exported backups are encrypted historical snapshots; deleting or expiring records inside the extension does not modify those files. Users manage and remove their backup files separately.</p>
-
-            <h3>7. Chrome Web Store Limited Use</h3>
-            <p>Aperture Vault’s use of information received from Chrome APIs complies with the Chrome Web Store User Data Policy, including the Limited Use requirements. Data is used only to provide or improve the extension’s user-facing local password-management features. Except for the user-directed fill, clipboard, and encrypted-export actions described above, it is not transferred outside the extension. It is never transferred for advertising, creditworthiness, lending, or unrelated purposes and is not exposed to human review.</p>
-
-            <h3>8. Changes to this policy</h3>
-            <p>If the extension’s data practices change, this page will be updated before or when the relevant extension update is released. The effective date and applicable version shown above identify the current policy.</p>
-
-            <h3>9. Contact</h3>
-            <p>For privacy or support questions, open an issue in the <a href="https://github.com/devin583/aperture-vault-privacy/issues">public privacy-policy issue tracker</a>. Do not include passwords, master passwords, backup files, or other secrets in a public issue.</p>
-          </article>
-
-          <article id="simplified-chinese" lang="zh-CN">
-            <h2>简体中文</h2>
-            <p class="summary"><strong>摘要：</strong>Aperture Vault 是纯本地密码管理器。它不包含开发者运营的服务器、分析统计、广告、遥测、云同步或第三方网络 SDK，也不会把密码库数据发送给开发者或独立第三方基础设施。</p>
-
-            <h3>1. 适用范围</h3>
-            <p>本政策说明 Aperture Vault 浏览器扩展如何处理信息。Aperture Vault 的唯一用途是在当前浏览器配置文件中本地加密保存登录凭据，并根据用户操作或逐来源授权，为精确匹配的网站提供凭据管理、保存复核和登录填充。</p>
-
-            <h3>2. 处理的数据</h3>
-            <p>Aperture Vault 只处理其用户可见密码管理功能所需的数据，包括：</p>
-            <ul>
-              <li>网站名称、精确来源（协议、主机名和端口）及可选路径前缀；</li>
-              <li>用户名、密码和备注；</li>
-              <li>本地生成的密码及其生成时间、精确来源，以及每条凭据被替换的旧密码及时间；</li>
-              <li>保存在加密密码库中的最近使用时间和使用次数；</li>
-              <li>语言、主题、自动锁定策略，以及用户分别启用候选识别或提交后保存询问的网站来源；</li>
-              <li>用户在安全扩展页面输入主密码期间的主密码；</li>
-              <li>为了执行用户明确要求的读取或填充，或已启用的可信提交提示，而在本地识别登录字段所需的当前页面标题、来源和路径、登录表单结构、标签及字段元数据。</li>
-            </ul>
-            <p>当用户选择“读取并保存当前登录”时，扩展会在本地检查当前页面和登录表单，读取所选用户名和密码，并在安全扩展窗口中要求确认。扩展不会保留页面副本或整张表单。</p>
-            <p>用户可在管理中心或可靠识别出的 HTTPS 注册/改密字段旁主动生成密码。生成使用浏览器本地密码学随机数，先写入加密恢复记录，再显示、复制或按用户确认填入新密码和确认字段；不会提交网页或判断网站是否接受密码。网页生成上下文（来源与路径、页面标题、账号、标签/框架/文档和字段关联标识、过期时间）暂存在可信扩展会话存储中，不含生成密码，最长 10 分钟，并在锁定、替换或相关窗口/标签页关闭时清除。生成后发起的保存复核沿用下述手动复核的 10 分钟期限。</p>
-            <p>用户也可以为单个精确 HTTPS 来源独立开启提交后的保存或更新询问。此功能只会在该来源的可选权限仍有效且密码库已解锁时工作。当可信点击或 Enter 操作触发原生表单提交后，扩展仅在表单提交目标仍为同一 HTTPS 来源、表单只有一个登录密码字段且存在高置信度账号字段，并且流程不像注册、修改密码、一次性验证码或支付输入时，才一次性读取用户名和密码；任何保存或更新仍须用户复核确认。</p>
-            <p>待复核数据会暂存在浏览器内存型 <code>storage.session</code> 中，可能包括拟保存的用户名和密码、页面标题、来源与路径（不含查询参数或锚点）、用于关联并按时清理复核操作的运行标识符和时间戳、建议的保存或更新模式，以及一个或多个已有候选记录标识符。用户明确手动读取后最长保留 10 分钟，已启用的可信提交提示后最长保留 2 分钟。数据会在确认、取消、过期、锁定、密码库替换、相关标签页或复核窗口关闭时清除。扩展不会持续监听输入，不会序列化整张表单，也不会静默保存或覆盖凭据。主密码只在输入期间用于派生或解锁加密密钥；它不会保存、传输、注入或共享给当前网站。</p>
-
-            <h3>3. 本地存储与安全</h3>
-            <ul>
-              <li>凭据库（包括已保存的网站记录、凭据、备注和相应使用元数据）在写入浏览器本地存储前，整体使用 AES-256-GCM 加密。</li>
-              <li>生成密码恢复记录和被替换的密码历史与凭据库一起加密；不写入未加密偏好、不进入搜索索引，也不传给其他网页。</li>
-              <li>主密码不会保存。加密密钥通过 PBKDF2-HMAC-SHA-256、随机盐和 600,000 次迭代派生。</li>
-              <li>解锁后的原始密钥只保存在浏览器内存型会话存储中，并在锁定、超时或浏览器会话结束后清除。</li>
-              <li>内存搜索索引只在已解锁的扩展页面中存在，并在锁定后清除。</li>
-              <li>语言、主题、自动锁定策略、逐来源功能启用状态等非敏感偏好和运行设置，会单独保存在浏览器本地存储中，不属于加密凭据库或其加密备份。</li>
-              <li>导出的 JSON 备份仍为加密数据，并继续受主密码保护。</li>
-              <li>如果用户选择复制，所选明文密码会写入操作系统剪贴板；扩展不会自动清空剪贴板，后续保留时间由操作系统和用户环境控制。</li>
-            </ul>
-
-            <h3>4. 网络传输与第三方</h3>
-            <p>Aperture Vault 不包含开发者运营的远程服务器、分析统计、广告、遥测、云同步或第三方网络 SDK。它不会把凭据、网站信息、搜索词、使用记录或密码库内容发送给开发者、广告或分析服务、云服务或独立第三方基础设施；不会出售用户数据，也不会将用户数据用于广告、信用评估、借贷或无关用途；不会把密码库数据暴露给人工审阅。</p>
-            <p>数据只会通过用户主动发起的本地操作离开扩展：把所选用户名和密码填入当前精确匹配网站的登录字段、把所选密码复制到操作系统剪贴板，或下载一份本地加密备份。如果用户提交已填充的表单，所选网站对提交数据的处理受其自身隐私政策约束。</p>
-
-            <h3>5. 浏览器权限</h3>
-            <ul>
-              <li><code>storage</code>：保存加密密码库、非敏感设置和内存型会话状态。</li>
-              <li><code>alarms</code>：即使没有打开密码库页面，也会按用户选择的闲置期限触发本地锁定并清理过期待复核数据；不会产生网络请求。</li>
-              <li><code>activeTab</code>：只在用户点击扩展或调用快捷键后访问当前标签页。</li>
-              <li><code>scripting</code>：按需注入隔离的登录候选、表单读取和填充界面。</li>
-              <li>可选网站访问权限：只有在用户为当前网站开启候选识别，或为精确 HTTPS 来源单独开启提交后保存询问时才请求。即使浏览器按主机授予权限，扩展仍会校验精确的协议、主机名和有效端口。</li>
-            </ul>
-            <p>扩展不会下载、执行或引用远程代码；所有可执行代码都包含在 Manifest V3 商店包中。</p>
-
-            <h3>6. 保留、控制和删除</h3>
-            <p>数据会保留在用户的浏览器配置中，直到用户删除凭据、导入其他备份、清除扩展数据或卸载扩展。用户可以查看、编辑或删除单条凭据；导出加密备份；关闭逐网站功能；撤销不再需要的网站访问权限；锁定会话；或卸载扩展以清除扩展数据。</p>
-            <p>生成密码恢复保留最近 30 天内最多 20 条记录；过期记录不可访问，并在下次解锁读取或写入密码库时从加密数据中清理。每条凭据保留最近 10 个被替换的密码；可主动清空，删除凭据也会删除其历史。恢复旧密码只更新本地记录，不会修改网站密码。用户自行导出的备份是加密历史快照，不会因扩展内删除或到期而自动修改；应由用户自行管理和删除。</p>
-
-            <h3>7. Chrome 应用商店有限使用承诺</h3>
-            <p>Aperture Vault 对从 Chrome API 获得的信息的使用符合 Chrome Web Store 用户数据政策，包括有限使用要求。数据只用于提供或改进用户可见的本地密码管理功能。除上文所述由用户主动发起的填充、剪贴板和加密导出操作外，数据不会传出扩展；绝不会为广告、信用评估、借贷或无关用途而传输，也不会暴露给人工审阅。</p>
-
-            <h3>8. 本政策的变更</h3>
-            <p>如果扩展的数据处理方式发生变化，本页面会在相关扩展更新发布之前或同时更新。页面顶部的生效日期和适用版本用于标识当前政策。</p>
-
-            <h3>9. 联系方式</h3>
-            <p>如需咨询隐私或支持问题，请在<a href="https://github.com/devin583/aperture-vault-privacy/issues">公开隐私政策问题跟踪页</a>提交问题。请勿在公开问题中包含密码、主密码、备份文件或其他秘密信息。</p>
-          </article>
-        </main>
+<article id="english" lang="en"><h2>English</h2>
+<p><strong>Summary:</strong> Aperture Vault is a local-only password manager. It has no developer-operated server, analytics, advertising, telemetry, cloud sync, or third-party network SDK, and it does not send vault data to the developer or third-party infrastructure.</p>
+<h3>Scope</h3>
+<p>This policy describes how the Aperture Vault browser extension processes information. Aperture Vault’s single purpose is to store sign-in credentials locally in encrypted form in the current browser profile and, after a user action, per-origin authorization, or a separately selected all-site authorization, manage, review, and fill credentials on exactly matched sites.</p>
+<h3>Data processed</h3>
+<p>Aperture Vault processes only data needed for its user-facing password-management features, including:</p>
+<ul><li>site name, exact origin (scheme, hostname, and port), and an optional path prefix;</li>
+<li>username, password, and notes;</li>
+<li>locally generated passwords with their creation times and exact origins, and replaced credential passwords with their timestamps;</li>
+<li>last-used timestamp and use count stored in the encrypted vault;</li>
+<li>language, theme, auto-lock policy, separate all-site field-suggestion and post-submit save settings, per-origin enablement and never-remind exclusions;</li>
+<li>the master password while the user enters it on a secure extension page; and</li>
+<li>the current page title, origin and path, login-form structure, labels, and field metadata needed locally to identify sign-in fields for an explicit read or fill, or for an enabled trusted-submit prompt.</li></ul>
+<p>When the user selects “Read and save current login,” the extension examines the current page and sign-in form locally, reads the selected username and password, and asks for confirmation in a secure extension window. It does not retain a copy of the page or the full form.</p>
+<p>The user can explicitly generate a password in the manager or beside a recognized HTTPS registration/password-change field. Generation uses local browser cryptographic randomness and writes encrypted recovery before displaying, copying or explicitly filling new and confirmation fields. It never submits the website form or determines acceptance. A generation context (origin/path, title, username, tab/frame/document and field-binding identifiers, and expiry) is held in trusted session storage for at most ten minutes without the generated password. Explicit Use fills the original fields without opening an early save review. It prepares a one-shot submission association for that form containing only origin, tab/frame/document, field-binding identifiers and expiry, never a username or password. This lasts at most another ten minutes and may survive closing the generator window. A site's never-remind exclusion wins; lock, replacement, permission revocation, invalidated or closed source pages clear the association, and submission consumes it. The resulting post-submit review uses the two-minute lifetime below; encrypted generation recovery is independent.</p>
+<p>The user may enable post-submit save prompts for one exact HTTPS origin or separately opt into the default-off all-HTTPS save option, authorizing once instead of per site. Valid site access and an unlocked vault are required. Proposed credentials are read only after a trusted submission action on a reliably recognized sign-in, registration or password-change form. New and confirmation values must match; the old password is not captured during a password change. Native form actions must remain on the same HTTPS origin. Missing reliable identity remains blank for the user to enter before saving, never guessed to overwrite an account. Ambiguous identities, ambiguous multiple-password flows, OTP-only and payment forms are rejected. Users review and may edit every save/update, choose Not now, or exclude the current exact origin with Never remind me on this site.</p>
+<p>Pending review data is held temporarily in the browser’s memory-backed <code>storage.session</code>. It can include the proposed username and password, page title, source origin and path (without query parameters or fragments), operational identifiers and timestamps needed to connect and expire the review, the suggested save/update mode, and one or more existing candidate identifiers. An explicit manual capture is retained for at most 10 minutes; an enabled trusted-submit prompt is retained for at most 2 minutes. Pending data is cleared on confirmation, cancellation, expiry, lock, vault replacement, or closure of the related tab or review window. The extension does not continuously monitor input, serialize the full form, or silently save or overwrite a credential. The master password is processed only while entered to derive or unlock the encryption key; it is never stored, transmitted, injected into, or shared with the current website.</p>
+<h3>Local storage and security</h3>
+<p>All-site field suggestions and all-site post-submit save prompts are independent and default off; importing or migrating does not enable them. They share an explicitly granted broad HTTPS permission. Suggestions alone never enable typed-password capture, automatic filling or submission. Broad access is removed only when both options are off. If the browser also removes narrower per-site grants, feature preferences remain stored but must be explicitly reauthorized before use. Alongside trusted native submission, save prompts recognize trusted clicks on explicit sign-in, registration or password-change actions in a reliable local region. They do not intercept network requests, infer success or capture general typing. Separate OTP values are never read or saved. Exact-origin exclusions still apply under global saving, and no credential is written automatically.</p>
+<p>On reliably identified username-first sign-in pages, an explicit credential choice returns and fills only the username; the content script receives no password for that step. The password step requires another credential choice. The extension does not submit automatically, infer an account across pages or record typing.</p>
+<ul><li>The credential vault—including saved site records, credentials, notes, and their usage metadata—is encrypted with AES-256-GCM before it is written to browser local storage.</li>
+<li>Generated-password recovery and replaced-password history are encrypted inside the same vault, never written to unencrypted preferences, indexed for search, or sent to other websites.</li>
+<li>The master password is never stored. A key is derived using PBKDF2-HMAC-SHA-256, a random salt, and 600,000 iterations.</li>
+<li>By default the raw unlocked key remains only in trusted memory-backed session storage and is removed on manual/idle lock or browser-session end. Users may separately confirm Never auto-lock, including browser restarts. This persistently stores the raw key in browser local storage restricted to trusted extension contexts, without OS keychain protection. Anyone able to use or read the profile may access all credentials. Manual lock or changing to another policy removes this material. If Never auto-lock remains selected, the next explicit master-password unlock saves the material again. Encrypted backups never include the key.</li>
+<li>The in-memory search index exists only on an unlocked extension page and is cleared on lock.</li>
+<li>Non-sensitive preferences and operational settings—including language, theme, auto-lock policy, and per-origin feature enablement—are stored separately in browser local storage and are not part of the encrypted credential vault or its encrypted backup.</li>
+<li>When the user exports a backup, the browser downloads a local encrypted JSON file that remains protected by the master password.</li>
+<li>If the user chooses Copy, the selected plaintext password is written to the operating-system clipboard. The extension does not automatically clear the clipboard; later retention is controlled by the operating system and user environment.</li></ul>
+<h3>Network transfer and third parties</h3>
+<p>Aperture Vault contains no developer-operated remote server, analytics, advertising, telemetry, cloud sync, or third-party network SDK. It does not send credentials, site information, search queries, usage records, or vault contents to the developer, advertising or analytics services, cloud services, or independent third-party infrastructure. It does not sell user data or use it for advertising, creditworthiness, lending, or an unrelated purpose, and it does not expose vault data to human review.</p>
+<p>Data leaves the extension only through a user-directed local action: filling the selected username and password into sign-in fields on the current exactly matched site, copying a selected password to the operating-system clipboard, or downloading an encrypted local backup. If the user submits a filled form, that chosen site’s own privacy policy governs its processing of the submitted data.</p>
+<h3>Browser permissions</h3>
+<ul><li><code>storage</code>: stores the encrypted vault, non-sensitive settings, and memory-backed session state.</li>
+<li><code>alarms</code>: triggers the selected local idle lock and clears expired pending reviews even when no Vault page is open; it makes no network request.</li>
+<li><code>activeTab</code>: accesses the current tab after the user clicks the extension or invokes its shortcut.</li>
+<li><code>scripting</code>: injects the isolated sign-in candidate, form-reading, and fill interface on demand.</li>
+<li>Optional website access: requested only when the user explicitly enables a per-site feature or either separate all-HTTPS feature. Global suggestions do not enable saving. Even if the browser grants host-level access, the extension validates the exact scheme, hostname, and effective port.</li></ul>
+<p>The extension does not download, execute, or reference remote code. All executable code is included in the Manifest V3 store package.</p>
+<h3>Retention, control, and deletion</h3>
+<p>Data remains in the user’s browser profile until the user deletes a credential, imports another backup, clears extension data, or uninstalls the extension. The user can view, edit, or delete individual credentials; export an encrypted backup; turn off per-site features; revoke website access that is no longer required; lock the session; or uninstall the extension to clear extension data.</p>
+<p>Generated recovery retains at most the newest 20 records for 30 days. Expired records cannot be accessed and are removed from the encrypted payload on the next unlocked vault read or write. Each credential retains its ten most recent replaced passwords; the user can clear this history, and deleting the credential also deletes its history. Restoring a password changes only the local record, not the website password. Exported backups are encrypted historical snapshots; deleting or expiring records inside the extension does not modify those files. Users manage and remove their backup files separately.</p>
+<h3>Chrome Web Store Limited Use commitment</h3>
+<p>Aperture Vault’s use of information received from Chrome APIs complies with the Chrome Web Store User Data Policy, including the Limited Use requirements. Data is used only to provide or improve the extension’s user-facing local password-management features. Except for the user-directed fill, clipboard, and encrypted-export actions described above, it is not transferred outside the extension. It is never transferred for advertising, creditworthiness, lending, or unrelated purposes and is not exposed to human review.</p>
+<h3>Changes to this policy</h3>
+<p>If the extension’s data practices change, this page will be updated before or when the relevant extension update is released. The effective date and applicable version shown above identify the current policy.</p>
+<h3>Contact</h3>
+<p>For privacy or support questions, open an issue at <a href="https://github.com/devin583/aperture-vault-privacy/issues">https://github.com/devin583/aperture-vault-privacy/issues</a>. Do not include passwords, master passwords, backup files, or other secrets in a public issue.</p>
+</article>
+<article id="simplified-chinese" lang="zh-CN"><h2>简体中文</h2>
+<p><strong>摘要：</strong>Aperture Vault 是纯本地密码管理器。它不包含开发者运营的服务器、分析统计、广告、遥测、云同步或第三方网络 SDK，也不会把密码库数据发送给开发者或任何第三方基础设施。</p>
+<h3>适用范围</h3>
+<p>本政策说明 Aperture Vault 浏览器扩展如何处理信息。Aperture Vault 的唯一用途是在当前浏览器配置文件中本地加密保存登录凭据，并根据用户操作、逐来源授权或单独选择的全站授权，为精确匹配的网站提供凭据管理、保存复核和登录填充。</p>
+<h3>处理的数据</h3>
+<p>Aperture Vault 只处理其用户可见密码管理功能所需的数据，包括：</p>
+<ul><li>网站名称、精确来源（协议、主机名和端口）及可选路径前缀；</li>
+<li>用户名、密码和备注；</li>
+<li>本地生成的密码及其生成时间、精确来源，以及每条凭据被替换的旧密码及时间；</li>
+<li>保存在加密密码库中的最近使用时间和使用次数；</li>
+<li>语言、主题、自动锁定策略、分别启用字段提示与提交后保存提醒的全站开关，以及逐来源启用和不再提醒的排除设置；</li>
+<li>用户在安全扩展页面输入主密码期间的主密码；</li>
+<li>为了执行用户明确要求的读取或填充，或已启用的可信提交提示，而在本地识别登录字段所需的当前页面标题、来源和路径、登录表单结构、标签及字段元数据。</li></ul>
+<p>当用户选择“读取并保存当前登录”时，扩展会在本地检查当前页面和登录表单，读取所选用户名和密码，并在安全扩展窗口中要求确认。扩展不会保留页面副本或整张表单。</p>
+<p>用户可在管理中心或可靠识别出的 HTTPS 注册/改密字段旁主动生成密码。生成使用浏览器本地密码学随机数，先写入加密恢复记录，再显示、复制或按用户确认填入新密码和确认字段；不会提交网页或判断网站是否接受密码。网页生成上下文（来源与路径、页面标题、账号、标签/框架/文档和字段关联标识、过期时间）暂存在可信扩展会话存储中，不含生成密码，最长 10 分钟。明确选择“使用此密码”后只填入网页，不提前打开复核；它为原绑定表单准备一次性提交关联，仅包含来源、页面/框架/文档、字段关联标识和期限，不含用户名或密码，最长再保留 10 分钟，并可在生成窗口关闭后继续有效。此网站的“不再提醒”设置优先，锁定、替换、权限撤回、关联页面失效或关闭会清除此关联；提交使用后即失效。提交后产生的复核适用下述 2 分钟期限，生成恢复记录仍独立加密保留。</p>
+<p>用户可为单个精确 HTTPS 来源开启提交保存提醒，也可另外明确开启默认关闭的“所有 HTTPS 网站提交后询问保存”，一次授权后无需逐站配置。两者均要求网站授权有效且安全舱已解锁。仅在识别到可靠登录、注册或改密表单的可信提交动作后，才读取拟保存的账号与密码；新密码与确认栏必须一致，改密不采集旧密码。原生表单的提交目标须为同一 HTTPS 来源。缺少可靠账号时保留空账号，由用户在复核中补充后才能保存，不猜测覆盖已有账号；含糊身份、多密码、纯验证码或支付流程会被拒绝。用户可核对、修改、确认保存或更新，也可选择“暂不保存”或将当前精确来源设为“不再提醒”。</p>
+<p>待复核数据会暂存在浏览器内存型 <code>storage.session</code> 中，可能包括拟保存的用户名和密码、页面标题、来源与路径（不含查询参数或锚点）、用于关联并按时清理复核操作的运行标识符和时间戳、建议的保存或更新模式，以及一个或多个已有候选记录标识符。用户明确手动读取后最长保留 10 分钟，已启用的可信提交提示后最长保留 2 分钟。数据会在确认、取消、过期、锁定、密码库替换、相关标签页或复核窗口关闭时清除。扩展不会持续监听输入，不会序列化整张表单，也不会静默保存或覆盖凭据。主密码只在输入期间用于派生或解锁加密密钥；它不会保存、传输、注入或共享给当前网站。</p>
+<h3>本地存储与安全</h3>
+<p>可选的全站字段提示与全站提交保存提醒分别控制、均默认关闭；导入或迁移不会自动开启。两者共用用户主动授予的广泛 HTTPS 访问权限，只开启字段提示不会因检测而读取所填密码、自动填充或提交。只有两项都关闭才撤回广泛授权；浏览器若同时移除较窄逐站授权，原功能偏好仍保留，但必须重新授权才能工作。除可信原生提交外，保存提醒也识别可靠局部区域内明确登录、注册或改密按钮的真实点击，不拦截网络请求、不推断成功、不采集日常输入。独立验证码值不读取、不保存。全站保存仍受精确来源排除约束，不会自动写入凭据。</p>
+<p>在可靠识别的分步登录账号页，用户选择凭据后只返回和填入账号，网页内容脚本不会收到该凭据的密码。密码步骤仍需再次选择凭据；不自动提交、不跨页面推断账号或记录输入过程。</p>
+<ul><li>凭据库（包括已保存的网站记录、凭据、备注和相应使用元数据）在写入浏览器本地存储前，整体使用 AES-256-GCM 加密。</li>
+<li>生成密码恢复记录和被替换的密码历史与凭据库一起加密；不写入未加密偏好、不进入搜索索引，也不传给其他网页。</li>
+<li>主密码不会保存。加密密钥通过 PBKDF2-HMAC-SHA-256、随机盐和 600,000 次迭代派生。</li>
+<li>默认解锁密钥仅保存在可信的内存型会话存储中，闲置锁定、手动锁定或浏览器会话结束后清除。用户可另行明确确认“永不自动锁定（含浏览器重启）”：原始解锁密钥会持久保存在仅可信扩展上下文可读的本地浏览器存储中，不受系统钥匙串保护。能使用或读取此浏览器配置文件的人可能访问全部凭据。手动锁定或改回其他策略移除此材料；保留“永不自动锁定”策略时，下次主动输入主密码解锁会重新保存材料。加密备份从不包含该密钥。</li>
+<li>内存搜索索引只在已解锁的扩展页面中存在，并在锁定后清除。</li>
+<li>语言、主题、自动锁定策略、逐来源功能启用状态等非敏感偏好和运行设置，会单独保存在浏览器本地存储中，不属于加密凭据库或其加密备份。</li>
+<li>导出的 JSON 备份仍为加密数据，并继续受主密码保护。</li>
+<li>如果用户选择复制，所选明文密码会写入操作系统剪贴板；扩展不会自动清空剪贴板，后续保留时间由操作系统和用户环境控制。</li></ul>
+<h3>网络传输与第三方</h3>
+<p>Aperture Vault 不包含开发者运营的远程服务器、分析统计、广告、遥测、云同步或第三方网络 SDK。它不会把凭据、网站信息、搜索词、使用记录或密码库内容发送给开发者、广告或分析服务、云服务或独立第三方基础设施；不会出售用户数据，也不会将用户数据用于广告、信用评估、借贷或无关用途；不会把密码库数据暴露给人工审阅。</p>
+<p>数据只会通过用户主动发起的本地操作离开扩展：把所选用户名和密码填入当前精确匹配网站的登录字段、把所选密码复制到操作系统剪贴板，或下载一份本地加密备份。如果用户提交已填充的表单，所选网站对提交数据的处理受其自身隐私政策约束。</p>
+<h3>浏览器权限</h3>
+<ul><li><code>storage</code>：保存加密密码库、非敏感设置和内存型会话状态。</li>
+<li><code>alarms</code>：即使没有打开密码库页面，也会按用户选择的闲置期限触发本地锁定并清理过期待复核数据；不会产生网络请求。</li>
+<li><code>activeTab</code>：只在用户点击扩展或调用快捷键后访问当前标签页。</li>
+<li><code>scripting</code>：按需注入隔离的登录候选、表单读取和填充界面。</li>
+<li>可选网站访问权限：只有用户明确开启逐站功能或任一独立全站 HTTPS 功能时才请求；全站字段提示不自动开启保存提醒。即使浏览器按主机授予权限，扩展仍会校验精确的协议、主机名和有效端口。</li></ul>
+<p>扩展不会下载、执行或引用远程代码；所有可执行代码都包含在 Manifest V3 商店包中。</p>
+<h3>保留、控制和删除</h3>
+<p>数据会保留在用户的浏览器配置中，直到用户删除凭据、导入其他备份、清除扩展数据或卸载扩展。用户可以查看、编辑或删除单条凭据；导出加密备份；关闭逐网站功能；撤销不再需要的网站访问权限；锁定会话；或卸载扩展以清除扩展数据。</p>
+<p>生成密码恢复保留最近 30 天内最多 20 条记录；过期记录不可访问，并在下次解锁读取或写入密码库时从加密数据中清理。每条凭据保留最近 10 个被替换的密码；可主动清空，删除凭据也会删除其历史。恢复旧密码只更新本地记录，不会修改网站密码。用户自行导出的备份是加密历史快照，不会因扩展内删除或到期而自动修改；应由用户自行管理和删除。</p>
+<h3>Chrome Web Store 有限使用承诺</h3>
+<p>Aperture Vault 对从 Chrome API 获得的信息的使用符合 Chrome Web Store 用户数据政策，包括有限使用要求。数据只用于提供或改进用户可见的本地密码管理功能。除上文所述由用户主动发起的填充、剪贴板和加密导出操作外，数据不会传出扩展；绝不会为广告、信用评估、借贷或无关用途而传输，也不会暴露给人工审阅。</p>
+<h3>本政策的变更</h3>
+<p>如果扩展的数据处理方式发生变化，本页面会在相关扩展更新发布之前或同时更新。页面顶部的生效日期和适用版本用于标识当前政策。</p>
+<h3>联系方式</h3>
+<p>如需咨询隐私或支持问题，请在<a href="https://github.com/devin583/aperture-vault-privacy/issues">https://github.com/devin583/aperture-vault-privacy/issues</a>提交公开问题。请勿在公开问题中包含密码、主密码、备份文件或其他秘密信息。</p>
+</article>
+</main>
 
         <footer>
           This public site contains the Aperture Vault privacy policy only. / 本公开网站仅包含 Aperture Vault 隐私政策。
